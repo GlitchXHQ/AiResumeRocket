@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_experience_experiences",
+  "info": {
+    "displayName": "Experience",
+    "icon": "alien"
+  },
+  "options": {},
+  "attributes": {
+    "startDate": {
+      "type": "date"
+    },
+    "jobTitle": {
+      "type": "string"
+    },
+    "companyName": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "workSummary": {
+      "type": "string"
+    },
+    "endDate": {
+      "type": "date"
+    },
+    "currentlyWorking": {
+      "type": "boolean"
+    }
+  },
+  "config": {}
+}
