@@ -43,7 +43,7 @@ const Experience = () => {
 
   // Handle input changes
   const changeHandler = (e, index) => {
-  const { name, type, value, checked } = e.target
+  const { name, type, value, checked } = e.target 
   const updatedList = [...experienceList]
 
   updatedList[index][name] = type === 'checkbox' ? checked : value
@@ -55,7 +55,7 @@ const Experience = () => {
   setExperienceList(updatedList)
 }
 
-  // Add new experience
+  // Add new experience 
   const addExperienceHandler = () => {
     setExperienceList([
       ...experienceList,
@@ -76,7 +76,7 @@ const Experience = () => {
   const removeExperienceHandler = (index) => {
     const updatedList = experienceList.filter((_, i) => i !== index)
     setExperienceList(updatedList)
-  }
+  } 
 
   const normalizeExperience = (list) => {
   return list.map(exp => ({
