@@ -31,12 +31,18 @@ const ResumeTemplate2 = ({resumeInfo}) => {
         </div>
       </div>
 
-      <div className='font-semibold mt-2'>OBJECTIVE <span>-------------------------------------------------------------------------------</span></div>       
+      {/* SUMMARY */}
+      <div className='font-semibold mt-2'>
+        SUMMARY <span>-------------------------------------------------------------------------------</span>
+      </div>       
       <div className='max-w-[650px] text-[12px] mt-1'>
         {resumeInfo?.summary}
       </div>
 
-      <div className='font-semibold mt-2'>PROFESSIONAL SUMMARY<span>------------------------------------------------------------</span></div>       
+      {/* EXPERIENCE */}
+      <div className='font-semibold mt-2'>
+        EXPERIENCE<span>------------------------------------------------------------</span>
+      </div>       
       <div>
         {
           resumeInfo?.experience.map((val,key)=>(
@@ -70,44 +76,59 @@ const ResumeTemplate2 = ({resumeInfo}) => {
         }
       </div>
 
-      <div className='flex flex-row gap-4'>
-        {/* Education */}
-        <div className='font-semibold mt-2'>
-          EDUCATION<span>---------------------------</span>
-          <div className='flex flex-col'>
-            {resumeInfo?.education.map((val,key)=>(
-              <div key={key} className='max-w-[650px] mt-2'>
-                <div className='flex flex-row justify-between'>
-                  <h1 className='text-[14px] font-medium'>
-                    {val.universityName}{val.city ? `, ${val.city}` : ""}{val.state ? `, ${val.state}` : ""}
-                  </h1>
-                  <div className='flex flex-row text-[10px] text-gray-600'>
-                    <h1>{val.startDate} -</h1>
-                    <h1>{val.endDate}</h1>
-                  </div>
-                </div>
-                <div className='flex flex-row text-[12px]'>
-                  <h1>{val.degree} - {val.major}</h1>
+      {/* PROJECTS */}
+      <div className='font-semibold mt-2'>
+        PROJECTS <span>------------------------------------------------------------</span>
+      </div>
+      <div>
+        {resumeInfo?.projects?.map((val, key)=>(
+          <div key={key} className='max-w-[650px] mt-2'>
+            <div className='flex flex-row justify-between'>
+              <h1 className='text-[14px] font-medium'>{val.name}</h1>
+              <h1 className='text-[10px] text-gray-600'>{val.timeline}</h1>
+            </div>
+            <div className='text-[12px]'>{val.description}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* EDUCATION */}
+      <div className='font-semibold mt-2'>
+        EDUCATION<span>---------------------------</span>
+        <div className='flex flex-col'>
+          {resumeInfo?.education.map((val,key)=>(
+            <div key={key} className='max-w-[650px] mt-2'>
+              <div className='flex flex-row justify-between'>
+                <h1 className='text-[14px] font-medium'>
+                  {val.universityName}{val.city ? `, ${val.city}` : ""}{val.state ? `, ${val.state}` : ""}
+                </h1>
+                <div className='flex flex-row text-[10px] text-gray-600'>
+                  <h1>{val.startDate} -</h1>
+                  <h1>{val.endDate}</h1>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Skills */}
-        <div className='font-semibold mt-2'>
-          ADDITIONAL SKILLS<span>--------------------------</span>
-          <div className='mt-2'>
-            {
-              resumeInfo?.skills.map((val,key)=>(
-                <div key={key} className='text-[12px]'>
-                  <li>{val.name}</li>
-                </div>
-              ))
-            }
-          </div>
+              <div className='flex flex-row text-[12px]'>
+                <h1>{val.degree} - {val.major}</h1>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
+
+      {/* SKILLS */}
+      <div className='font-semibold mt-2'>
+        SKILLS<span>--------------------------</span>
+        <div className='mt-2'>
+          {
+            resumeInfo?.skills.map((val,key)=>(
+              <div key={key} className='text-[12px]'>
+                <li>{val.name}</li>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
     </div>
   )
 }

@@ -3,15 +3,12 @@ import React from "react";
 const ResumeTemplate3 = ({ resumeInfo }) => {
   return (
     <div className="max-w-[700px] mx-auto bg-white shadow-lg">
-      {/* Top Header */}
       <div className="bg-[#000033] relative flex items-center h-[140px] px-6">
-        {/* Profile Image */}
         <img
           src={resumeInfo?.image}
           alt="Profile Picture"
           className="w-[110px] h-[110px] rounded-full border-4 border-white absolute -bottom-12 left-6 object-cover"
         />
-        {/* Name */}
         <div className="flex flex-col justify-end right-0 absolute bottom-0">
           <h1 className="text-4xl font-extrabold text-white ml-auto pr-4">
             {resumeInfo?.firstName} {resumeInfo?.lastName}
@@ -20,9 +17,7 @@ const ResumeTemplate3 = ({ resumeInfo }) => {
         </div>
       </div>
 
-      {/* Body Content */}
       <div className="flex flex-row gap-8 px-6 pt-16 pb-8">
-        {/* Left Column (Contact Info) */}
         <div className="w-[30%] pr-4 border-r border-gray-300">
           <h2 className="text-lg font-bold mb-4 text-gray-700">CONTACT</h2>
           <div className="mb-4">
@@ -44,11 +39,29 @@ const ResumeTemplate3 = ({ resumeInfo }) => {
               {resumeInfo?.lastName}
             </p>
           </div>
+
+          <div className="mt-6">
+            <h2 className="text-lg font-bold text-gray-700">SKILLS</h2>
+            <div className="mt-2">
+              {resumeInfo?.skills.map((val, key) => (
+                <div key={key} className="text-sm mt-2">
+                  <h3 className="font-semibold" dangerouslySetInnerHTML={{
+                    __html:val.category?.split("\n")
+      .map((line) => `<div>${line.trim()}</div>`)
+      .join(""),
+                  }} />
+                  <ul className="ml-4 list-disc">
+                    {val.items.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
-        {/* Right Column (Summary + Experience + Education) */}
         <div className="w-[70%]">
-          {/* Summary */}
           <div className="mb-6">
             <h2 className="text-lg font-bold text-gray-700">SUMMARY</h2>
             <p className="text-sm text-gray-600 mt-2 text-[12px]">
@@ -56,7 +69,6 @@ const ResumeTemplate3 = ({ resumeInfo }) => {
             </p>
           </div>
 
-          {/* Experience */}
           <div className="mb-6">
             <h2 className="text-lg font-bold text-gray-700">EXPERIENCE</h2>
             <div>
@@ -68,7 +80,6 @@ const ResumeTemplate3 = ({ resumeInfo }) => {
                         <h1>{val.companyName},</h1>
                         <h1>{val.jobTitle}</h1>
                       </div>
-                      {/* City & State */}
                       <div className="text-[12px] text-gray-500">
                         {val.city}
                         {val.city && val.state ? ", " : ""}
@@ -82,7 +93,6 @@ const ResumeTemplate3 = ({ resumeInfo }) => {
                       </h1>
                     </div>
                   </div>
-
                   <div
                     className="flex flex-col text-[12px]"
                     dangerouslySetInnerHTML={{
@@ -97,7 +107,31 @@ const ResumeTemplate3 = ({ resumeInfo }) => {
             </div>
           </div>
 
-          {/* Education */}
+          <div className="mb-6">
+            <h2 className="text-lg font-bold text-gray-700">PROJECTS</h2>
+            <div className="flex flex-col">
+              {resumeInfo?.projects.map((val, key) => (
+                <div key={key} className="max-w-[650px] mt-2">
+                  <div className="flex flex-row justify-between">
+                    <h1 className="text-[14px] font-medium">{val.name}</h1>
+                    <div className="text-[10px] text-gray-600">{val.date}</div>
+                  </div>
+                  <div className="text-[12px]">
+                    <a
+                      href={val.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-blue-600 underline"
+                    >
+                      {val.link}
+                    </a>
+                  </div>
+                  <div className="text-[12px]">{val.about}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div>
             <h2 className="text-lg font-bold text-gray-700">EDUCATION</h2>
             <div className="flex flex-col">

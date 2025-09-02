@@ -1,7 +1,7 @@
 import banda from "../../assets/Templates/ProfessionalBanda.jpg"
 
 const Dummy = {
-    image: {banda}, // 🖼️ Replace with actual profile image URL
+    image: banda ,
 
     firstName: 'James',
     lastName: 'Carter',
@@ -66,12 +66,40 @@ const Dummy = {
         }
     ],
 
+    // 🆕 Projects Section
+    projects: [
+        {
+            id: 1,
+            name: "Portfolio Website",
+            date: "Mar 2023",
+            link: "https://example.com",
+            about: "A personal portfolio website built using React, Tailwind CSS, and deployed on Vercel."
+        },
+        {
+            id: 2,
+            name: "E-commerce App",
+            date: "Jan 2022",
+            link: "https://example.com/shop",
+            about: "Developed a full-stack e-commerce application using MERN stack with Stripe integration for payments."
+        }
+    ],
+
+    // 🆕 Categorized Skills Section
     skills: [
-        { id: 1, name: 'Angular' },
-        { id: 2, name: 'React' },
-        { id: 3, name: 'MySQL' },
-        { id: 4, name: 'React Native' }
-    ]
+  {
+    category: "Languages",
+    items: ["JavaScript", "Python", "C++"]
+  },
+  {
+    category: "Frameworks",
+    items: ["React", "Node.js"]
+  },
+  {
+    category: "Tools",
+    items: ["Git", "Docker"]
+  }
+]
+
 }
 
 export default Dummy;

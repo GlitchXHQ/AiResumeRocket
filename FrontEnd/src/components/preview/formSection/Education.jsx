@@ -1,6 +1,7 @@
 import { ResumeInfoContext } from '@/context/ResumeInfoContext.jsx'
-import { Trash2 } from 'lucide-react'
-import React, { useContext, useState } from 'react'
+import GlobalApi from "../../../services/GlobalApi"
+import { Loader, Trash2 } from 'lucide-react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 
@@ -41,16 +42,32 @@ const Education = () => {
 
   const submitHandler=(e)=>{
     e.preventDefault();
+    setLoading(true)
+    const data={
+      data:{
+        education:educationList
+      }
+    }
+    GlobalApi.updateUserResume(param?.resumeId,data).then(resp=>{
+      console.log("Response: ",resp)
+      setLoading(false)
+      toast.success("Education Details Saved")
+    },err=>{
+      setLoading(false)
+      console.log("Error: ",err)
+      toast.error("Server Error Please Try Again")
+    })
+  }
+  useEffect(()=>{
     setResumeInfo({
       ...resumeInfo,
       education:educationList
     })
-    toast.success("Education Details Saved")
-  }
-
+  },[educationList])
+  
   const ChangeHandler=(e,idx)=>{
+    const updatedList=educationList.slice()
     const {name,value}=e.target
-    const updatedList=[...educationList]
     updatedList[idx][name]=value
     setEducationList(updatedList)
   }
@@ -161,13 +178,15 @@ const Education = () => {
               >
                 + Add Section
               </button>
-              <button
-                type="submit"
-                className="px-4 py-2 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700"
-              >
-                Save
-              </button>
+
+          <button
+          type="submit"
+          className="px-4 py-2 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700"
+          >
+          {loading? <Loader className='animate-spin'></Loader>:"Save"}
+          </button>
             </div>
+            
           </form>
         ))}
       </div>

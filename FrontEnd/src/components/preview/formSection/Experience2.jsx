@@ -100,7 +100,7 @@ const Experience2 = () => {
   useEffect(() => {
     setResumeInfo({
       ...resumeInfo,
-      Experience: experienceList,
+      experience: experienceList, 
     })
   }, [experienceList])
 
@@ -220,6 +220,7 @@ const Experience2 = () => {
               <label className="text-sm font-medium text-gray-600">
                 Work Summary
               </label>
+              
               <RichTextEditor
                 index={index}
                 value={item?.workSummary}
