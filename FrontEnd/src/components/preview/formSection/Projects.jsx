@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import Skills from './Skills.jsx';
 import { Loader } from 'lucide-react';
 import GlobalApi from '@/services/GlobalApi.js';
+import { generateText } from '@/services/Gemini.js';
 const Projects = () => {
 
   const[projectList,setProjectList]=useState([
@@ -21,6 +22,7 @@ const Projects = () => {
   const params=useParams()
   const[loading,setLoading]=useState(false)
   const {resumeInfo,setResumeInfo}=useContext(ResumeInfoContext)
+  const[loadingAI,setLoadingAI]=useState(null)
 
   const AddSection=()=>{
     setProjectList([...projectList,{
@@ -40,8 +42,43 @@ const Projects = () => {
     setProjectList(updatedList)
   }
 
+  const UseAI=async (content,idx)=>{
+    const prompt=content.replace(/<[^>]+>/g, "")
+    if(prompt.length===0){
+    toast.error("Input Cannot Be Empty")
+    return
+    }
+    try
+    {
+    setLoadingAI(idx)
+      const Prompt = `Rewrite the following content into a single, ATS-friendly version using strong action verbs and industry-relevant keywords. 
+      Enhance it by incorporating quantifiable achievements with numbers, percentages, or metrics 
+      (e.g., “Improved process efficiency by 40%,” “Boosted customer satisfaction by 25%,” “Reduced costs by $15K annually”). 
+
+      ⚠️ Important formatting rules:
+      - Return the result ONLY in bullet points.
+      - Each bullet point must start with a dot followed by a space (". ").
+      - Do not use asterisks (*), dashes (-), or numbers for bullets.
+      - Keep the language concise, professional, and optimized for Applicant Tracking Systems.
+      - Return ONLY the final formatted text without any extra explanation.
+
+      Content: ${prompt}`
+    
+    const result=await generateText(Prompt)
+    const updatedList=[...projectList]
+    updatedList[idx].about=result
+    setProjectList(updatedList)
+    console.log("Result Received: ",result)
+    setLoadingAI(null)
+    }
+    catch(err){
+      setLoadingAI(null)
+      toast.error("Network Error, Try Again Later")
+      console.log("Error Occured: ",err)
+    }
+  }
   const changeHandler=(e,idx)=>{
-    const updatedList=projectList.slice()
+    const updatedList=[...projectList]
     const{name,value}=e.target
     updatedList[idx][name]=value
     setProjectList(updatedList)
@@ -55,24 +92,25 @@ const Projects = () => {
         projects:projectList
       }}
       console.log("data: ",data)
-    // }
-    // GlobalApi.updateUserResume(params?.resumeId,data).then(res=>
-    // {
-    //   setLoading(false)
-    //   toast.success("Data Saved Successfully")
-    // },err=>{
-    //   toast.error("Error, Try Again Later")
-    //   console.log("error: ",err)
-    // })
-    setLoading(false)
+    
+    GlobalApi.updateUserResume(params?.resumeId,data).then(res=>
+    {
+      setLoading(false)
+      toast.success("Data Saved Successfully")
+    },err=>{
+      setLoading(false)
+      toast.error("Error, Try Again Later")
+      console.log("error: ",err)
+    })
   }
   
+
     useEffect(()=>{
       setResumeInfo(prev => ({
         ...prev,
         projects: projectList
       }))
-    },[projectList, setResumeInfo])
+    },[projectList])
 
   return (
     <div className='border w-[600px] mt-5 p-4 h-fit bg-white shadow-purple-500 shadow-xl rounded-lg'>
@@ -86,7 +124,7 @@ const Projects = () => {
           projectList.map((val,idx)=>(
             <form action="" className='relative border rounded-lg mt-10 shadow-gray-200 shadow-xl p-4' onSubmit={submitHandler} key={idx}>
               
-              <div onClick={()=>RemoveSection(idx)} className='absolute top-2 right-2 text-red-500 text-[7  px]'>
+              <div onClick={()=>RemoveSection(idx)} className='absolute top-2 right-2 text-red-500 text-xs'>
                 <Trash2/>
               </div>
 
@@ -125,7 +163,13 @@ const Projects = () => {
               >
                 + Add Section
               </button>
-
+              
+              <button
+              type="button"
+              onClick={()=>UseAI(val.about,idx)}
+              className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                  {loadingAI===idx? <Loader className='animate-spin'/>:"Use AI"}
+              </button>
           <button
           type="submit"
           className="px-4 py-2 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700"
