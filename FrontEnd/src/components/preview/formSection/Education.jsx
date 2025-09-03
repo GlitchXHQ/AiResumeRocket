@@ -48,15 +48,17 @@ const Education = () => {
         education:educationList
       }
     }
-    GlobalApi.updateUserResume(param?.resumeId,data).then(resp=>{
-      console.log("Response: ",resp)
-      setLoading(false)
-      toast.success("Education Details Saved")
-    },err=>{
-      setLoading(false)
-      console.log("Error: ",err)
-      toast.error("Server Error Please Try Again")
-    })
+    console.log("Data: ",data)
+    setLoading(false)
+    // GlobalApi.updateUserResume(param?.resumeId,data).then(resp=>{
+    //   console.log("Response: ",resp)
+    //   setLoading(false)
+    //   toast.success("Education Details Saved")
+    // },err=>{
+    //   setLoading(false)
+    //   console.log("Error: ",err)
+    //   toast.error("Server Error Please Try Again")
+    // })
   }
   useEffect(()=>{
     setResumeInfo({
@@ -73,7 +75,7 @@ const Education = () => {
   }
 
   return (
-    <div className="p-6">
+    <div className="border w-[600px] mt-5 p-4 h-fit bg-white shadow-purple-500 shadow-xl rounded-lg">
       {/* Heading */}
       <div className="mb-6">
         <h1 className="text-2xl font-semibold text-gray-800">Education Details</h1>

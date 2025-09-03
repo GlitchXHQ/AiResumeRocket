@@ -57,11 +57,6 @@ const FormSection = () => {
         State===5 && 
         <Projects/>
         }
-
-        {
-        State===6 && 
-        <Skills/>
-        }
     </div>
   )
 }

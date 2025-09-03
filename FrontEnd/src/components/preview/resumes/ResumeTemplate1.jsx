@@ -103,22 +103,6 @@ const ResumeTemplate1 = ({ resumeInfo }) => {
           ))}
         </div>
 
-        {/* Skills */}
-        <div className='font-semibold mt-2'>SKILLS</div>
-        <div className='border-2 border-black w-[680px] mt-1'></div>
-        <div className='mt-2'>
-          {resumeInfo?.skills.map((val, key) => (
-            <div key={key} className='text-[12px] mt-1'>
-              <h1 className='font-medium'>{val.category}:</h1>
-              <div className='ml-4'>
-                {val.items.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
       </div>
     </div>
   )

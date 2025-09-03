@@ -127,7 +127,7 @@ const Experience2 = () => {
   }
 
   return (
-    <div className="p-6">
+    <div className="border w-[600px] mt-5 p-4 h-fit bg-white shadow-purple-500 shadow-xl rounded-lg">
       <h1 className="text-2xl font-bold text-gray-800">Professional Experience</h1>
       <p className="text-gray-500 mb-6">Add your previous job experiences below.</p>
 
