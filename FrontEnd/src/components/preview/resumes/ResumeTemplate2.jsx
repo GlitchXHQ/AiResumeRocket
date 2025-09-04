@@ -39,6 +39,20 @@ const ResumeTemplate2 = ({resumeInfo}) => {
         {resumeInfo?.summary}
       </div>
 
+      {/* SKILLS */}
+      {/*SKILLS*/}
+          <div className="mb-6">
+            <h2 className="text-lg font-bold text-gray-700">SKILLS</h2>
+            <ul className="list-disc list-inside text-sm text-gray-600 mt-2">
+              {resumeInfo?.skills?.map((val, key) => (
+                <div key={key} className="flex flex-row gap-2">
+                  <h1 className="font-medium">{val.name}:</h1>
+                  <h1>{val.heading}</h1>
+                </div>
+              ))}
+            </ul>
+          </div>
+
       {/* EXPERIENCE */}
       <div className='font-semibold mt-2'>
         EXPERIENCE<span>------------------------------------------------------------</span>
@@ -54,7 +68,7 @@ const ResumeTemplate2 = ({resumeInfo}) => {
                     {val.city && <h1>, {val.city}</h1>}
                     {val.state && <h1>, {val.state}</h1>}
                   </div>
-                  <h1 className='text-[10px]'>{val.title}</h1>
+                  <h1 className='text-[10px]'>{val.jobTitle}</h1>
                 </div>
                 <div className='flex flex-row text-[10px] text-gray-400'>
                   <h1>{val.startDate} -</h1>
@@ -85,9 +99,9 @@ const ResumeTemplate2 = ({resumeInfo}) => {
           <div key={key} className='max-w-[650px] mt-2'>
             <div className='flex flex-row justify-between'>
               <h1 className='text-[14px] font-medium'>{val.name}</h1>
-              <h1 className='text-[10px] text-gray-600'>{val.timeline}</h1>
+              <h1 className='text-[10px] text-gray-600'>{val.date}</h1>
             </div>
-            <div className='text-[12px]'>{val.description}</div>
+            <div className='text-[12px]'>{val.about}</div>
           </div>
         ))}
       </div>

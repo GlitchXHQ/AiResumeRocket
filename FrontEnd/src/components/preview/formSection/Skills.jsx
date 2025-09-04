@@ -1,95 +1,148 @@
 import { ResumeInfoContext } from '@/context/ResumeInfoContext.jsx'
+import GlobalApi from '@/services/GlobalApi.js'
+import { Loader, Trash, Trash2 } from 'lucide-react'
 import React, { useContext, useEffect, useState } from 'react'
-import { Trash2 } from 'lucide-react'
-import RichTextEditor from '@/components/RichTextEditor.jsx'
+import { useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 
 const Skills = () => {
-  const[skillList,setSkillList]=useState([
-    {
-      category:"",
-      items:""
-    }
+  const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext)
+  const [loading, setLoading] = useState(false)
+
+  const [skillList, setSkillList] = useState([
+    { name: "", heading: "" }
   ])
 
-  const{resumeInfo,setResumeInfo}=useContext(ResumeInfoContext)
-  const[loading,setLoading]=useState(false)
+  const params=useParams()
 
-  const RemoveSection=(key)=>{
-    if(skillList.length===1)
+  const AddSection = () => {
+    setSkillList([...skillList, { name: "", heading: "" }])
+  }
+
+  const RemoveSection = (idx) => {
+    if (skillList.length === 1) {
       toast.error("Add Atleast 1 Skill")
-    else{
-      const updatedList=skillList.filter((_,i)=>i!==key)
+      return
+    } else {
+      const updatedList = skillList.filter((_, i) => i !== idx)
       setSkillList(updatedList)
-  }}
-  const AddSection=()=>{
-    setSkillList([...skillList,{
-      category:"",
-      items:""
-    }])
+    }
   }
 
-  const changeHandler=(e,key)=>{
-    const{value}=e.target
-    const updatedList=[...skillList]
-    updatedList[key].category=value
+  const changeHandler=(e,idx)=>{
+    const updatedList=skillList.slice()
+    const {name,value}=e.target
+    updatedList[idx][name]=value
     setSkillList(updatedList)
+  } 
+
+  useEffect(()=>{
+    setResumeInfo({
+      ...resumeInfo,
+      skills:skillList
+    })
+  },[skillList])
+
+  const submitHandler =async (e) => {
+    if(skillList.length===0) 
+    {
+      toast.error("Fields Cannot Be Empty")
+      return;
+    }
+    e.preventDefault();
+    setLoading(true)
+    const data={
+      data:{
+        skills:skillList
+      }
+    }
+
+    await GlobalApi.updateUserResume(params?.resumeId,data).then(res=>{
+      setLoading(false)
+      toast.success("Changes Saved SuccessFully")
+    },err=>
+    {
+      setLoading(false)
+      toast.error("Network Error, Try Again")
+    })
   }
 
-  const handleRichTextEditor=(content,key)=>{
-    const updatedList=[...skillList]
-    updatedList[key].items=content
-    setSkillList(updatedList)
-  }
-  
-  // useEffect(()=>
-  // {
-  //   setResumeInfo({
-  //     ...resumeInfo,
-  //     skills:skillList
-  // })
-  // },[skillList])
+  const SaveHandler = () => {
 
-
-  const onSave=()=>{
-    console.group(skillList)
   }
 
   return (
-    <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-semibold text-gray-800">Skills Details</h1>
-        <p className="text-sm text-gray-500">Add information about your Skills</p>
+    <div className="border w-[600px] mt-5 p-6 bg-white shadow-purple-500 shadow-xl rounded-xl">
+      {/* Header */}
+      <div className="mb-6 text-center">
+        <h1 className="text-2xl font-bold text-gray-800">Skills Details</h1>
+        <p className="text-sm text-gray-500">
+          Add information about your skills
+        </p>
       </div>
 
-
-      <div className='flex flex-col bg-white p-5'>
-      {
-        skillList.map((val,key)=>(
-          <div key={key} className='relative border rounded-lg shadow-sm p-4 bg-gray-50'>
-            <button
-            type="button"
-            onClick={() => RemoveSection(key)}
-            className="absolute top-3 right-3 text-red-500 hover:text-red-600"
-            >
+      {/* Form */}
+      <form onSubmit={submitHandler} className="space-y-6">
+        {skillList.map((val, idx) => (
+          <div
+          key={idx}
+          className="relative border border-gray-400 rounded-lg p-4 shadow-sm bg-gray-50"
+          >
+          {/* Skills Input */}
+          <div className='absolute text-sm top-1 right-2 text-red-500' onClick={()=>RemoveSection(idx)}>
             <Trash2/>
-            </button>
-            <div className='flex flex-col mb-3'>
-            <label>Heading</label>
-            <input value={val.category} onChange={(e)=>changeHandler(e,key)} type="text" placeholder='Eg: Languages' className='border border-gray-400 rounded px-2 py-1'/>
-            </div>
-
-            <div className='flex flex-col'>
-              <h1 className='font-medium'>Skills</h1>
-              <RichTextEditor  value={val.items} onRichTextEditorChange={(content)=>handleRichTextEditor(content,key)}/>
-            </div>
-
-            <button type='button' onClick={AddSection} className='mt-3 text-blue-600 hover:underline'>Add Section</button>
           </div>
-        ))
-      }
-    </div>
-    <button type='button' onClick={onSave}>Save</button>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Heading
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={val.name}
+              onChange={(e)=>changeHandler(e,idx)}
+              className="w-full px-3 py-2 text-sm border border-gray-400 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none"
+            />
+          </div>
+
+            {/* Heading Input */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Skills
+              </label>
+              <input
+                type="text"
+                name="heading"
+                value={val.heading}
+                onChange={(e)=>changeHandler(e,idx)}
+                className="w-full px-3 py-2 text-sm border border-gray-400 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none"
+              />
+            </div>
+
+          </div>
+        ))}
+
+        {/* Buttons */}
+        <div className="flex justify-between mt-6">
+          <button
+            type="button"
+            onClick={AddSection}
+            className="px-4 py-2 bg-green-500 text-white rounded-lg text-sm font-medium hover:bg-green-600 transition"
+          >
+            + Add Section
+          </button>
+          <button
+            type="submit"
+            onClick={SaveHandler}
+            className="px-6 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition"
+          >
+            {
+              loading? <Loader/>:"Save"
+            }
+          </button>
+        </div>
+      </form>
     </div>
   )
 }

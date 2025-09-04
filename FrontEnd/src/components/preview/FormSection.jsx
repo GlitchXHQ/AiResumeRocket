@@ -42,21 +42,27 @@ const FormSection = () => {
         State===2 && 
         <Summary/>
         }
-
+        
         {
         State===3 && 
-        <Experience2/>
+        <Skills/>
         }
 
         {
         State===4 && 
-        <Education/>
+        <Experience2/>
         }
 
         {
         State===5 && 
         <Projects/>
         }
+        
+        {
+        State===6 && 
+        <Education/>
+        }
+
     </div>
   )
 }

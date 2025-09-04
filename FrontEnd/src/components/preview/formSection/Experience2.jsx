@@ -1,63 +1,66 @@
 import { ResumeInfoContext } from '@/context/ResumeInfoContext.jsx'
 import React, { useContext, useEffect, useState } from 'react'
-import { CheckLine, Delete, LoaderCircle, PlusCircle } from 'lucide-react'
+import { Delete, LoaderCircle, PlusCircle, Loader } from 'lucide-react'
 import RichTextEditor from '@/components/RichTextEditor.jsx'
 import { toast } from 'sonner'
 import { GiArtificialHive } from 'react-icons/gi'
-import { Loader } from 'lucide-react'
 import { generateText } from '@/services/Gemini.js'
 import GlobalApi from '@/services/GlobalApi.js'
 import { useParams } from 'react-router-dom'
 
-const formField = {
-  jobTitle: '',
-  companyName: '',
-  city: '',
-  state: '',
-  startDate: '',
-  endDate: '',
-  currentlyWorking: false,
-  workSummary: '',
-}
-
 const Experience2 = () => {
-  const [experienceList, setExperienceList] = useState([])
+  const [experienceList, setExperienceList] = useState([
+    {
+      jobTitle: '',
+      companyName: '',
+      city: '',
+      state: '',
+      startDate: '',
+      endDate: '',
+      currentlyWorking: false,
+      workSummary: '',
+    }
+  ])
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext)
   const [loading, setLoading] = useState(false)
-  const [contentInside,setContentInside]=useState("")
-  const [aiLoading,setAiLoading]=useState(false)
-  const params=useParams()
-
-  useEffect(() => {
-    if (resumeInfo?.experience?.length > 0) {
-      setExperienceList(resumeInfo.experience)
-    } else {
-      setExperienceList([formField])
-    }
-  }, [])
+  const params = useParams()
+  const [aiLoading,setAiLoading]=useState(null)
 
   const handleChange = (index, event) => {
-    const { name, value,type,checked } = event.target
+    const { name, value, type, checked } = event.target
     const newEntries = [...experienceList]
-    newEntries[index][name] = type ==='checkbox'? checked:value
-    
-    if(name==='currentlyWorking' && checked)
-      newEntries[index].endDate=''
+    newEntries[index][name] = type === 'checkbox' ? checked : value
+
+    if (name === 'currentlyWorking' && checked) {
+      newEntries[index].endDate = ''
+    }
 
     setExperienceList(newEntries)
   }
 
   const AddNewExperience = () => {
-    setExperienceList([...experienceList, { ...formField }])
-  }
+    setExperienceList([...experienceList, {
+        jobTitle: '',
+        companyName: '',
+        city: '',
+        state: '',
+        startDate: '',
+        endDate: '',
+        currentlyWorking: false,
+        workSummary: '',
+      }
+      ])
+    }
 
-  const AiHelper=async (htmlContent,index)=>{
-    const prompt=htmlContent.replace(/<[^>]+>/g, "")
-    if(prompt.length===0)
-      toast.error("Please Provide Prompt/Content")
-    try{
-      setAiLoading(true)
-    const prompt1 = `
+  const AiHelper = async (htmlContent, index) => {
+    const prompt = htmlContent.replace(/<[^>]+>/g, '')
+    if (prompt.length === 0) {
+      toast.error('Please Provide Prompt/Content')
+      return
+    }
+    try {
+      setAiLoading(index)
+      const prompt1 = `
     You are a resume expert. 
     Your task is to read the following resume text and create a concise **work summary in 2–3 bullet points**. 
 
@@ -68,18 +71,16 @@ const Experience2 = () => {
     - Format the answer as plain text bullet points, each starting with "•".
 
     Resume text:
-    ${prompt}`      
+    ${prompt}`
 
-      const result=await generateText(prompt1)
-      const updatedList=[...experienceList]
-      updatedList[index].workSummary=result
+      const result = await generateText(prompt1)
+      const updatedList = [...experienceList]
+      updatedList[index].workSummary = result
       setExperienceList(updatedList)
-      console.log("Result Received: ",result)
-      setAiLoading(false)
-    }catch(err)
-    {
-      toast.error("Please, Try Again Later")
-      setAiLoading(false)
+      setAiLoading(null)
+    } catch (err) {
+      toast.error('Please, Try Again Later')
+      setAiLoading(null)
     }
   }
 
@@ -93,43 +94,43 @@ const Experience2 = () => {
 
   const handleRichTextEditor = (value, name, index) => {
     const newEntries = [...experienceList]
-    newEntries[index][name] = experienceList.target.value
+    newEntries[index][name] = value
     setExperienceList(newEntries)
   }
 
   useEffect(() => {
     setResumeInfo({
       ...resumeInfo,
-      experience: experienceList, 
+      experience: experienceList,
     })
   }, [experienceList])
 
   const onSave = (e) => {
-    // handle save
     e.preventDefault()
     setLoading(true)
-    const data={
-      data:{
-      experience:experienceList
-      }
+    const data = {
+      data: {
+        experience: experienceList,
+      },
     }
-    console.log("Payload being sent:", data)
-    GlobalApi.updateResumeExperience(params?.resumeId,data).then(res=>{
-      console.log("Experience API Response: ",res)
-      setLoading(false)
-      toast("Details Updated Successfully")
-    },
-    (err)=>{
-      console.log("Error Occured While Updating Experience Details: ",err)
-      setLoading(false)
-      toast.error('Error While Updating, Try again after sometime')
-    })
+    GlobalApi.updateUserResume(params?.resumeId, data).then(
+      (res) => {
+        setLoading(false)
+        toast('Details Updated Successfully')
+      },
+      (err) => {
+        setLoading(false)
+        toast.error('Error While Updating, Try again after sometime')
+      }
+    )
   }
 
   return (
     <div className="border w-[600px] mt-5 p-4 h-fit bg-white shadow-purple-500 shadow-xl rounded-lg">
-      <h1 className="text-2xl font-bold text-gray-800">Professional Experience</h1>
-      <p className="text-gray-500 mb-6">Add your previous job experiences below.</p>
+      <div className='flex flex-col items-center'>
+        <h1 className="text-2xl font-bold text-gray-800 text-center">Professional Experience</h1>
+        <p className="text-gray-500 mb-6 text-center">Add your previous job experiences below.</p>
+      </div>
 
       {experienceList.map((item, index) => (
         <div
@@ -138,9 +139,7 @@ const Experience2 = () => {
         >
           <div className="grid grid-cols-2 gap-4 p-6">
             <div>
-              <label className="text-sm font-medium text-gray-600">
-                Position Title
-              </label>
+              <label className="text-sm font-medium text-gray-600">Position Title</label>
               <input
                 name="jobTitle"
                 onChange={(event) => handleChange(index, event)}
@@ -150,9 +149,7 @@ const Experience2 = () => {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-600">
-                Company Name
-              </label>
+              <label className="text-sm font-medium text-gray-600">Company Name</label>
               <input
                 name="companyName"
                 onChange={(event) => handleChange(index, event)}
@@ -182,9 +179,7 @@ const Experience2 = () => {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-600">
-                Start Date
-              </label>
+              <label className="text-sm font-medium text-gray-600">Start Date</label>
               <input
                 type="date"
                 name="startDate"
@@ -196,60 +191,64 @@ const Experience2 = () => {
 
             <div>
               <label className="text-sm font-medium text-gray-600">End Date</label>
-              {!item.currentlyWorking?(
+              {!item.currentlyWorking ? (
                 <input
-                type="date"
-                name="endDate"
-                onChange={(event) => handleChange(index, event)}
-                value={item?.endDate}
-                className="w-full mt-1 rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-              />
-              ):<span className='italic text-gray-600'>Current</span>}
+                  type="date"
+                  name="endDate"
+                  onChange={(event) => handleChange(index, event)}
+                  value={item?.endDate}
+                  className="w-full mt-1 rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                />
+              ) : (
+                <span className="italic text-gray-600">Current</span>
+              )}
 
               <label className="flex items-center gap-2 mt-2">
-                <input type="checkbox"
-                name='currentlyWorking'
-                checked={item.currentlyWorking}
-                className='w-4 h-4 accent-purple-500'
-                onChange={(e)=>handleChange(index,e)}/>
+                <input
+                  type="checkbox"
+                  name="currentlyWorking"
+                  checked={item.currentlyWorking}
+                  className="w-4 h-4 accent-purple-500"
+                  onChange={(e) => handleChange(index, e)}
+                />
                 Currently Working Here?
               </label>
             </div>
 
             <div className="col-span-2">
-              <label className="text-sm font-medium text-gray-600">
-                Work Summary
-              </label>
-              
+              <label className="text-sm font-medium text-gray-600">Work Summary</label>
               <RichTextEditor
                 index={index}
                 value={item?.workSummary}
-                onRichTextEditorChange={(content) =>{
-                const updatedList=[...experienceList]
-                updatedList[index].workSummary=content
-                setContentInside(content)
-                setExperienceList(updatedList)
-              }
-              }  
+                onRichTextEditorChange={(content) => {
+                  const updatedList = [...experienceList]
+                  updatedList[index].workSummary = content
+                  setExperienceList(updatedList)
+                }}
               />
             </div>
           </div>
 
           <div className="flex justify-between items-center border-t p-4 bg-gray-50 rounded-b-2xl">
-            <div className='flex flex-row items-center gap-2' onClick={()=>AiHelper(item.workSummary,index)}>
-              <GiArtificialHive className='text-red-600'/>
-              <button type='button' className='text-red-600 cursor-pointer'>
-                {aiLoading? <Loader className='animate-spin'></Loader>:"Use AI"} 
+            <div
+              className="flex flex-row items-center gap-2"
+              onClick={() => AiHelper(item.workSummary, index)}
+            >
+              <GiArtificialHive className="text-red-600" />
+              <button type="button" className="text-red-600 cursor-pointer">
+                {aiLoading===index ? <Loader className="animate-spin" /> : 'Use AI'}
               </button>
-              </div>
+            </div>
             <div className="flex gap-3">
               <button
+                type='button'
                 onClick={AddNewExperience}
                 className="flex items-center gap-1 bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 transition"
               >
                 <PlusCircle size={16} /> Add Experience
               </button>
               <button
+                type='button'
                 onClick={() => RemoveExperience(index)}
                 className="flex items-center gap-1 bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-600 transition"
               >
@@ -259,15 +258,15 @@ const Experience2 = () => {
           </div>
         </div>
       ))}
+
       <button
-              disabled={loading}
-              onClick={(e) => onSave(e)}
-              className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
-            >
-              {loading ? <LoaderCircle className="animate-spin" /> : 'Save'}
-            </button>
+        disabled={loading}
+        onClick={(e) => onSave(e)}
+        className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+      >
+        {loading ? <LoaderCircle className="animate-spin" /> : 'Save'}
+      </button>
     </div>
-    
   )
 }
 

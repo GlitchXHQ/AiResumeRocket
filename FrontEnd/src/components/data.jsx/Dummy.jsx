@@ -83,6 +83,12 @@ const Dummy = {
             about: "Developed a full-stack e-commerce application using MERN stack with Stripe integration for payments."
         }
     ],
+    skills:[
+        {
+            name:"Language",
+            heading:" C, C++, Java, JavaScript (ES6+)" 
+        }
+    ]
 }
 
 export default Dummy;

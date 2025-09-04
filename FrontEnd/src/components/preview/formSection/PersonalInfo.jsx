@@ -10,19 +10,17 @@ const PersonalInfo = ({ templateNumber }) => {
   const [Image, setImage] = useState(null)
   const params = useParams()
   const [formData, setFormData] = useState({})
-  const [loading, setLoading] = useState(false) 
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e) => {
-    const { name, value } = e.target  
-
+    const { name, value } = e.target
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     })
-
     setResumeInfo({
       ...resumeInfo,
-      [name]: value
+      [name]: value,
     })
   }
 
@@ -33,133 +31,140 @@ const PersonalInfo = ({ templateNumber }) => {
       setImage(previewUrl)
       setResumeInfo((prev) => ({
         ...prev,
-        image: file
+        image: file,
       }))
     }
   }
-
-  useEffect(() => {
-    console.log("Param ID:", params)
-  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
     setLoading(true)
 
     const data = {
-
-      data:{
-        title:resumeInfo.title,
-        resumeId:resumeInfo.resumeId,
+      data: {
+        title: resumeInfo.title,
+        resumeId: resumeInfo.resumeId,
         userEmail: resumeInfo.userEmail,
         userName: resumeInfo.userName,
-        ...formData
-      }
+        ...formData,
+      },
     }
- 
+
     GlobalApi.updateUserResume(params?.resumeId, data)
       .then((resp) => {
-        console.log("API Response:", resp)
-        console.log("Saved info:", resumeInfo)
-        toast("Changes have been saved.")
+        toast('Changes have been saved.')
         setLoading(false)
-      })  
+      })
       .catch((err) => {
-        console.log("Document Id: ",params?.resumeId)
-        console.error("Error updating resume:", err)
         setLoading(false)
+        toast.error('Error updating resume, try again later')
       })
   }
 
   return (
-    <div className="border w-[600px] mt-5 p-4 h-fit bg-white shadow-purple-500 shadow-xl rounded-lg">
-      <h1 className="text-lg font-semibold">Enter Your Basic Information</h1>
-      <div className='font-bold'>-------------------------------------------------------------------------------------</div>
-
-      <form className='mt-3' onSubmit={handleSubmit}>
+    <div className="border w-[600px] mt-5 p-6 h-fit bg-white shadow-purple-500 shadow-xl rounded-lg">
+      <div className='flex flex-col items-center'>
+          <h1 className="text-2xl font-bold text-gray-800 text-center">Personal Information</h1>
+          <p className="text-sm text-gray-500 mb-6 text-center">Enter your basic details below.</p>
+      </div>
+      <form className="space-y-5" onSubmit={handleSubmit}>
         {templateNumber === 3 && (
-          <div className='flex flex-row gap-3'>
-            <label htmlFor="image">Image:</label>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Profile Image
+            </label>
             <input
               type="file"
-              id='image'
-              name='image'
+              id="image"
+              name="image"
               accept="image/*"
               onChange={handleChangeImage}
-              className='border p-1 rounded-md w-fit'
+              className="block w-full text-sm text-gray-600 border border-gray-300 rounded-lg cursor-pointer focus:outline-none focus:ring focus:ring-purple-200"
             />
           </div>
         )}
 
-        <div className='flex flex-row gap-3 mt-2'>
-          <div className='flex flex-row gap-3'>
-            <label>First Name</label>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              First Name
+            </label>
             <input
               type="text"
               name="firstName"
-              placeholder='eg: John'
-              className='border-2'
+              placeholder="eg: John"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-purple-200 focus:outline-none"
               defaultValue={resumeInfo.firstName}
               onChange={handleChange}
             />
           </div>
 
-          <div className='flex flex-row gap-3'>
-            <label>Last Name</label>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Last Name
+            </label>
             <input
               type="text"
               name="lastName"
-              placeholder='eg: Doe'
-              className='border-2'
+              placeholder="eg: Doe"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-purple-200 focus:outline-none"
               defaultValue={resumeInfo.lastName}
               onChange={handleChange}
             />
           </div>
         </div>
 
-        <div className='flex flex-row gap-7 mt-1'>
-          <label>Job Title</label>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Job Title
+          </label>
           <input
             type="text"
             name="jobTitle"
-            placeholder='eg: Software Engineer'
-            className='border-2 w-[450px]'
+            placeholder="eg: Software Engineer"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-purple-200 focus:outline-none"
             defaultValue={resumeInfo.jobTitle}
             onChange={handleChange}
           />
         </div>
 
-        <div className='flex flex-row gap-7 mt-1'>
-          <label>Address</label>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Address
+          </label>
           <input
             type="text"
             name="address"
-            placeholder='eg: 525 N Tryon Street, NC 28117'
-            className='border-2 w-[450px]'
+            placeholder="eg: 525 N Tryon Street, NC 28117"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-purple-200 focus:outline-none"
             defaultValue={resumeInfo.address}
             onChange={handleChange}
           />
         </div>
 
-        <div className='flex flex-row gap-12 mt-1'>
-          <label>Email</label>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Email
+          </label>
           <input
             type="email"
-            name="email" 
-            placeholder='eg: Ramen@gmail.com'
-            className='border-2 w-[450px]'
+            name="email"
+            placeholder="eg: Ramen@gmail.com"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-purple-200 focus:outline-none"
             defaultValue={resumeInfo.email}
             onChange={handleChange}
           />
         </div>
 
-        <div className='flex flex-row gap-1 mt-1'>
-          <label>Phone Number</label>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Phone Number
+          </label>
           <input
             type="text"
             name="phone"
-            placeholder='123456789'
-            className='border-2 w-[425px]'
+            placeholder="123456789"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-purple-200 focus:outline-none"
             defaultValue={resumeInfo.phone}
             onChange={handleChange}
           />
@@ -167,10 +172,10 @@ const PersonalInfo = ({ templateNumber }) => {
 
         <button
           type="submit"
-          className="mt-3 px-4 py-2 bg-purple-500 text-white rounded-md shadow-md hover:bg-purple-600"
+          className="w-full py-2 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition disabled:opacity-50"
           disabled={loading}
         >
-          {loading ? <LoaderCircle className='animate-spin' /> : 'Save'}
+          {loading ? <LoaderCircle className="animate-spin mx-auto" /> : 'Save'}
         </button>
       </form>
 
@@ -178,7 +183,7 @@ const PersonalInfo = ({ templateNumber }) => {
         <img
           src={Image}
           alt="Preview"
-          className="mt-3 w-32 h-32 object-cover rounded-lg border"
+          className="mt-5 w-32 h-32 object-cover rounded-lg border"
         />
       )}
     </div>
