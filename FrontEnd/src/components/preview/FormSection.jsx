@@ -10,6 +10,7 @@ import { useState } from 'react'
 import Button from '../common/Button'
 import { FcPrevious,FcNext } from "react-icons/fc";
 import Experience2 from './formSection/Experience2.jsx'
+import Temp from './formSection/Temp.jsx'
 
 const FormSection = () => {
   const [State, setState] = useState(1)
@@ -50,7 +51,7 @@ const FormSection = () => {
 
         {
         State===4 && 
-        <Experience2/>
+        <Temp/>
         }
 
         {
