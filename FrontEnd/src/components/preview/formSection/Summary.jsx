@@ -62,7 +62,7 @@ const Summary = () => {
   }
 
   return (
-    <div className="border w-[600px] mt-5 p-6 h-fit bg-white shadow-purple-500 shadow-xl rounded-lg">
+    <div className="border w-full max-w-[600px] mt-5 p-6 h-fit bg-white shadow-purple-500 shadow-xl rounded-lg mx-auto">
       <div className="flex flex-col items-center">
         <h1 className="text-2xl font-bold text-gray-800 text-center">Professional Summary</h1>
         <p className="text-sm text-gray-500 text-center">
@@ -78,14 +78,15 @@ const Summary = () => {
           id="summary"
           value={summary}
           placeholder={resumeInfo.summary || 'Write your professional summary here...'}
-          className="border border-gray-300 rounded-lg h-[100px] p-2 focus:ring focus:ring-purple-200 focus:outline-none"
+          className="border border-gray-300 rounded-lg h-[100px] p-2 focus:ring focus:ring-purple-200 focus:outline-none resize-none"
           onChange={(e) => setSummary(e.target.value)}
         />
 
-        <div className="flex justify-between mt-2">
+        {/* Action buttons */}
+        <div className="flex flex-col sm:flex-row justify-between gap-3 mt-2">
           <button
             type="button"
-            className="flex items-center gap-2 px-4 py-2 bg-purple-500 text-white rounded-lg shadow hover:bg-purple-600"
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-purple-500 text-white rounded-lg shadow hover:bg-purple-600"
             onClick={() => setShow(true)}
           >
             Generate Using AI
@@ -94,7 +95,7 @@ const Summary = () => {
 
           <button
             type="submit"
-            className="px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700"
+            className="px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 flex items-center justify-center"
           >
             {loading ? <LoaderCircle className="animate-spin" /> : 'Save'}
           </button>
@@ -104,14 +105,14 @@ const Summary = () => {
           <div className="mt-4 flex flex-col gap-3 border-t pt-4">
             <h2 className="text-base font-medium text-gray-700">Enter Your Prompt</h2>
             <textarea
-              className="h-[100px] border border-gray-300 rounded-lg p-2 focus:ring focus:ring-purple-200 focus:outline-none"
+              className="h-[100px] border border-gray-300 rounded-lg p-2 focus:ring focus:ring-purple-200 focus:outline-none resize-none"
               value={aiPrompt}
               placeholder="Eg: I am a FullStack Developer with 5 years of experience. Create a polished summary for me."
               onChange={(e) => setAiPrompt(e.target.value)}
             />
             <button
               type="button"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 flex items-center justify-center"
               onClick={GenerateSummaryFromAI}
               disabled={AiLoading}
             >

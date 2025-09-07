@@ -91,9 +91,9 @@ const Projects = () => {
   }, [projectList, setResumeInfo])
 
   return (
-    <div className="border w-[600px] mt-5 p-6 h-fit bg-white shadow-purple-500 shadow-xl rounded-lg">
-      <div className="mb-6 items-center flex flex-col">
-        <h1 className="text-2xl font-bold text-gray-800">Project Details</h1>
+    <div className="border w-full max-w-[600px] mx-auto mt-5 p-4 sm:p-6 h-fit bg-white shadow-purple-500 shadow-xl rounded-lg">
+      <div className="mb-6 flex flex-col items-center">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Project Details</h1>
         <p className="text-sm text-gray-500">Add information about your projects</p>
       </div>
 
@@ -122,8 +122,9 @@ const Projects = () => {
             />
           </div>
 
-          <div className="flex flex-row justify-between mt-3 gap-4">
-            <div className="flex flex-col gap-2 w-1/2">
+          {/* Date & Link */}
+          <div className="flex flex-col sm:flex-row justify-between mt-3 gap-4">
+            <div className="flex flex-col gap-2 w-full sm:w-1/2">
               <label className="text-sm font-medium">Date</label>
               <input
                 onChange={(e) => changeHandler(e, idx)}
@@ -133,7 +134,7 @@ const Projects = () => {
                 className="border w-full border-gray-300 rounded-md p-2"
               />
             </div>
-            <div className="flex flex-col gap-2 w-1/2">
+            <div className="flex flex-col gap-2 w-full sm:w-1/2">
               <label className="text-sm font-medium">Link</label>
               <input
                 onChange={(e) => changeHandler(e, idx)}
@@ -146,6 +147,7 @@ const Projects = () => {
             </div>
           </div>
 
+          {/* Description */}
           <div className="mt-5">
             <RichTextEditor
               value={val.about}
@@ -158,7 +160,7 @@ const Projects = () => {
           </div>
 
           {/* Actions */}
-          <div className="flex justify-between mt-4">
+          <div className="flex flex-col sm:flex-row justify-between gap-3 mt-4">
             <button
               type="button"
               onClick={AddSection}
@@ -170,14 +172,14 @@ const Projects = () => {
             <button
               type="button"
               onClick={() => UseAI(val.about, idx)}
-              className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
+              className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2"
             >
               {loadingAI === idx ? <Loader className="animate-spin" size={16} /> : 'Use AI'}
             </button>
 
             <button
               type="submit"
-              className="px-4 py-2 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2"
+              className="px-4 py-2 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center justify-center gap-2"
             >
               {loading ? <Loader className="animate-spin" size={16} /> : 'Save'}
             </button>

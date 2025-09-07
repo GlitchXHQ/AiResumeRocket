@@ -44,14 +44,13 @@ const Education = () => {
     const data = {
       data: { education: educationList }
     }
-    await GlobalApi.updateUserResume(param?.resumeId,data).then(res=>{
+    await GlobalApi.updateUserResume(param?.resumeId, data).then(res => {
       setLoading(false)
       toast.success("Saved Changes Successfully")
-    },err=>{
+    }, err => {
       setLoading(false)
       toast.error("Network Error, Try Again Later")
     })
-
   }
 
   useEffect(() => {
@@ -69,10 +68,10 @@ const Education = () => {
   }
 
   return (
-    <div className="border w-[600px] mt-5 p-6 h-fit bg-white shadow-purple-500 shadow-xl rounded-xl">
+    <div className="border w-full max-w-[600px] mx-auto mt-5 p-4 sm:p-6 h-fit bg-white shadow-purple-500 shadow-xl rounded-xl">
       <div className="mb-6 text-center">
-        <h1 className="text-2xl font-bold text-gray-800">Education Details</h1>
-        <p className="text-sm text-gray-500">Add information about your education</p>
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Education Details</h1>
+        <p className="text-xs sm:text-sm text-gray-500">Add information about your education</p>
       </div>
 
       <div className="space-y-6">
@@ -80,14 +79,14 @@ const Education = () => {
           <form
             key={idx}
             onSubmit={submitHandler}
-            className="bg-gray-50 shadow-md rounded-xl p-6 border border-gray-200 relative"
+            className="bg-gray-50 shadow-md rounded-xl p-4 sm:p-6 border border-gray-200 relative"
           >
             <button
               type="button"
               onClick={() => RemoveSection(idx)}
-              className="absolute top-4 right-4 text-red-500 hover:text-red-600 transition"
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 text-red-500 hover:text-red-600 transition"
             >
-              <Trash2 className="w-5 h-5" />
+              <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
 
             <div className="mb-4">
@@ -103,7 +102,7 @@ const Education = () => {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Degree
@@ -130,7 +129,7 @@ const Education = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Start Date
@@ -155,7 +154,7 @@ const Education = () => {
               </div>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row justify-between gap-3">
               <button
                 type="button"
                 onClick={AddSection}
@@ -165,9 +164,9 @@ const Education = () => {
               </button>
               <button
                 type="submit"
-                className="px-6 py-2 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+                className="px-6 py-2 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 transition flex items-center justify-center"
               >
-                {loading ? <Loader className="animate-spin w-4 h-4 mx-auto" /> : "Save"}
+                {loading ? <Loader className="animate-spin w-4 h-4" /> : "Save"}
               </button>
             </div>
           </form>

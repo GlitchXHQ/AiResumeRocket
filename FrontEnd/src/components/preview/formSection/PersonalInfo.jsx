@@ -1,7 +1,7 @@
 import { ResumeInfoContext } from '@/context/ResumeInfoContext'
 import GlobalApi from '@/services/GlobalApi'
 import { LoaderCircle } from 'lucide-react'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 
@@ -51,22 +51,27 @@ const PersonalInfo = ({ templateNumber }) => {
     }
 
     GlobalApi.updateUserResume(params?.resumeId, data)
-      .then((resp) => {
+      .then(() => {
         toast('Changes have been saved.')
         setLoading(false)
       })
-      .catch((err) => {
+      .catch(() => {
         setLoading(false)
         toast.error('Error updating resume, try again later')
       })
   }
 
   return (
-    <div className="border w-[600px] mt-5 p-6 h-fit bg-white shadow-purple-500 shadow-xl rounded-lg">
-      <div className='flex flex-col items-center'>
-          <h1 className="text-2xl font-bold text-gray-800 text-center">Personal Information</h1>
-          <p className="text-sm text-gray-500 mb-6 text-center">Enter your basic details below.</p>
+    <div className="border w-full max-w-[600px] mx-auto mt-5 p-4 sm:p-6 h-fit bg-white shadow-purple-500 shadow-xl rounded-lg">
+      <div className="flex flex-col items-center">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-800 text-center">
+          Personal Information
+        </h1>
+        <p className="text-sm text-gray-500 mb-6 text-center">
+          Enter your basic details below.
+        </p>
       </div>
+
       <form className="space-y-5" onSubmit={handleSubmit}>
         {templateNumber === 3 && (
           <div>
@@ -84,7 +89,7 @@ const PersonalInfo = ({ templateNumber }) => {
           </div>
         )}
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               First Name
@@ -183,7 +188,7 @@ const PersonalInfo = ({ templateNumber }) => {
         <img
           src={Image}
           alt="Preview"
-          className="mt-5 w-32 h-32 object-cover rounded-lg border"
+          className="mt-5 w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-lg border mx-auto"
         />
       )}
     </div>
