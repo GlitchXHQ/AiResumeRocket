@@ -57,14 +57,20 @@
         const Submit=async(e)=>{
             e.preventDefault();
             setLoading(true)
+            const cleanedExperience = experience.map(exp => ({
+            ...exp,
+            endDate: exp.currentlyWorking ? null : exp.endDate || null,  // ✅ no empty string
+            }));
+
             const data={
                 data:{
-                    experience:experience
+                    experience:cleanedExperience
                 }
             }
+            console.log("Data: ",data)
             await GlobalApi.updateUserResume(params?.resumeId,data).then(res=>{
                     setLoading(false)
-                    toast.success('Projects saved successfully')
+                    toast.success('Experience    saved successfully')
             },err=>{
                     setLoading(false)
                     toast.error('Error, try again later')
@@ -209,7 +215,7 @@
                 </div>
                 ))}
                 <button type='submit' className='p-2 bg-blue-500 text-white rounded-md'>
-                    {loading? <Loader/>:"Save"}
+                    {loading? <Loader className='animate-spin'/>:"Save"}
                 </button>
             </form>
 
