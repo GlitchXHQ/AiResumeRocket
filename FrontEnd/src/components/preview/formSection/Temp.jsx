@@ -64,7 +64,7 @@ const Temp = () => {
         experience: cleanedExperience,
       },
     };
-    await GlobalApi.updateUserResume(params?.resumeId, data).then(
+    await GlobalApi.updateUserResume(params?.documentId, data).then(
       (res) => {
         setLoading(false);
         toast.success('Experience saved successfully');

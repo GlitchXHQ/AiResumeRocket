@@ -7,16 +7,19 @@ import { useParams, useLocation } from 'react-router-dom'
 import Footer from '@/components/home/FourthSection/Footer'
 
 const ResumePage = () => {
-  const params = useParams()  
+  const { documentId } = useParams()
   const location = useLocation()
-  const templateNumber = useParams()
+
   const [resumeInfo, setResumeInfo] = useState(Dummy)
-  
+  const [templateNumber, setTemplateNumber] = useState(null)
+
   useEffect(() => {
-    if (templateNumber) {
-      localStorage.setItem("templateNumber", templateNumber)
+    // Read template number from localStorage
+    const storedTemplate = localStorage.getItem("TemplateNumber")
+    if (storedTemplate) {
+      setTemplateNumber(parseInt(storedTemplate))
     }
-  }, [templateNumber])
+  }, [])
 
   return (
     <ResumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>
@@ -29,11 +32,11 @@ const ResumePage = () => {
             <FormSection />
           </div>
           <div className="flex-1 overflow-y-auto max-h-[80vh] rounded-lg shadow-lg bg-white p-4">
-            <ResumePreview templateNumber={templateNumber}/>
+            <ResumePreview templateNumber={templateNumber} />
           </div>
         </div>
 
-        <Footer/>
+        <Footer />
       </div>
     </ResumeInfoContext.Provider>
   )

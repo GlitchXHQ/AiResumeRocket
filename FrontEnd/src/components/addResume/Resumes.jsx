@@ -38,7 +38,7 @@ const Resumes = () => {
       console.log("Document ID: ",res.data.data.documentId)
       if(res) {
         setLoading(false)
-        navigate(`/dashboard/resume/${res.data.data.documentId}/edit`)
+        navigate(`/dashboard/resume/${res.data.data.documentId}/chooseResume`)
       }
     })
   }

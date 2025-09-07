@@ -2,7 +2,6 @@ import banda from "../../assets/Templates/ProfessionalBanda.jpg"
 
 const Dummy = {
     image: banda ,
-
     firstName: 'James',
     lastName: 'Carter',
     jobTitle: 'Full Stack Developer',

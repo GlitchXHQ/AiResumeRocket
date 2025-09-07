@@ -54,7 +54,7 @@ const Skills = () => {
       },
     }
 
-    await GlobalApi.updateUserResume(params?.resumeId, data).then(
+    await GlobalApi.updateUserResume(params?.documentId, data).then(
       (res) => {
         setLoading(false)
         toast.success('Changes Saved SuccessFully')

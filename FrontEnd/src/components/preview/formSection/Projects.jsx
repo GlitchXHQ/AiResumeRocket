@@ -71,7 +71,7 @@ const Projects = () => {
 
     const data = { data: { projects: projectList } }
 
-    GlobalApi.updateUserResume(params?.resumeId, data).then(
+    GlobalApi.updateUserResume(params?.documentId, data).then(
       () => {
         setLoading(false)
         toast.success('Projects saved successfully')

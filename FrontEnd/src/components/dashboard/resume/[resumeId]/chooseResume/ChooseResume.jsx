@@ -22,9 +22,9 @@ const ChooseResume = () => {
   }
 
   useEffect(() => {
-    console.log("UUID:", resumeId)
+    console.log("UUID:", documentId)
     console.log("Selected Template:", templateNumber)
-  }, [resumeId, templateNumber])
+  }, [documentId, templateNumber])
 
   return (
     <div 

@@ -30,7 +30,7 @@ const Summary = () => {
     setLoading(true)
     const data = { data: { summary } }
 
-    GlobalApi.updateUserResume(params?.resumeId, data).then(
+    GlobalApi.updateUserResume(params?.documentId, data).then(
       () => {
         setLoading(false)
         toast.success('Summary updated successfully')

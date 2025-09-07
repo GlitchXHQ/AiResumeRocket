@@ -44,7 +44,7 @@ const Education = () => {
     const data = {
       data: { education: educationList }
     }
-    await GlobalApi.updateUserResume(param?.resumeId, data).then(res => {
+    await GlobalApi.updateUserResume(param?.documentId, data).then(res => {
       setLoading(false)
       toast.success("Saved Changes Successfully")
     }, err => {

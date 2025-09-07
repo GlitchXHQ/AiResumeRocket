@@ -5,11 +5,15 @@ const ResumeTemplate3 = ({ resumeInfo }) => {
     <div className="w-full max-w-[700px] mx-auto bg-white shadow-lg">
       {/* Header */}
       <div className="bg-[#000033] relative flex items-center h-[140px] px-4 sm:px-6">
-        <img
+        {
+          resumeInfo?.image && (
+            <img
           src={resumeInfo?.image}
           alt="Profile Picture"
           className="w-[90px] h-[90px] sm:w-[110px] sm:h-[110px] rounded-full border-4 border-white absolute -bottom-10 sm:-bottom-12 left-4 sm:left-6 object-cover"
         />
+          )
+        }
         <div className="flex flex-col justify-end right-0 absolute bottom-0 pb-2 sm:pb-4">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white ml-auto pr-2 sm:pr-4">
             {resumeInfo?.firstName} {resumeInfo?.lastName}
