@@ -1,14 +1,16 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import "../../App.css"
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { useNavigate } from 'react-router-dom'
 import { UserButton, useUser } from '@clerk/clerk-react'
+import { FiMenu, FiX } from "react-icons/fi"
 
 const NavBar = () => {
   const nav = useRef();
   const navigate = useNavigate();
   const { isSignedIn, isLoaded } = useUser();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useGSAP(() => {
     gsap.from(".text", {
@@ -21,36 +23,71 @@ const NavBar = () => {
   }, { scope: nav });
 
   return (
-    <div ref={nav} className="bg-[#ffffff] flex flex-row justify-between items-center border-b-2 w-[90%] mx-auto">
+    <div 
+      ref={nav} 
+      className="bg-white flex justify-between items-center border-b-2 w-[90%] mx-auto py-3 px-2"
+    >
+      {/* Logo */}
       <div className="cursor-pointer">
         <h1 
-          className="logo text font-spaceGrotesk text-[20px]" 
+          className="logo text font-spaceGrotesk text-xl md:text-2xl" 
           onClick={() => navigate("/")}
         >
           AiResume Rocket
         </h1>
       </div>
 
-      <div className="flex flex-row gap-15">
+      {/* Desktop Links */}
+      <div className="hidden md:flex flex-row gap-10">
         <h1 className="cursor-pointer text">Features</h1>
         <h1 className="cursor-pointer text">About Us</h1>
       </div>
 
-      <div className="flex flex-row gap-5 cursor-pointer items-center">
+      {/* Right Section */}
+      <div className="hidden md:flex flex-row gap-4 items-center">
         <div className="text">
           {isLoaded && (isSignedIn 
             ? <UserButton/>
             : <h1 onClick={() => navigate("/auth/sign-in")}>Login</h1>
           )}
         </div>
-
         <button 
-          className="cursor-pointer text border-gray-400 border items-center rounded-sm p-0.5 mb-1"
+          className="cursor-pointer text border-gray-400 border rounded-sm px-2 py-1"
           onClick={() => navigate(isSignedIn ? "/add-resume" : "/auth/sign-in")}
         >
           Create Resume
         </button>
       </div>
+
+      {/* Mobile Menu Button */}
+      <div className="md:hidden flex items-center">
+        <button onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <FiX size={24}/> : <FiMenu size={24}/>}
+        </button>
+      </div>
+
+      {/* Mobile Dropdown */}
+      {menuOpen && (
+        <div className="absolute top-[70px] left-0 w-full bg-white border-t flex flex-col gap-4 py-4 px-6 md:hidden z-50">
+          <h1 className="cursor-pointer text" onClick={() => setMenuOpen(false)}>Features</h1>
+          <h1 className="cursor-pointer text" onClick={() => setMenuOpen(false)}>About Us</h1>
+          <div className="text">
+            {isLoaded && (isSignedIn 
+              ? <UserButton/>
+              : <h1 onClick={() => {navigate("/auth/sign-in"); setMenuOpen(false)}}>Login</h1>
+            )}
+          </div>
+          <button 
+            className="cursor-pointer text border-gray-400 border rounded-sm px-2 py-1"
+            onClick={() => {
+              navigate(isSignedIn ? "/add-resume" : "/auth/sign-in");
+              setMenuOpen(false);
+            }}
+          >
+            Create Resume
+          </button>
+        </div>
+      )}
     </div>
   )
 }

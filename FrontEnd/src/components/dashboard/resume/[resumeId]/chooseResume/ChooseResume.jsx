@@ -11,14 +11,14 @@ const arr = [T1, T2, T3]
 
 const ChooseResume = () => {
   const navigate = useNavigate()
-  const { resumeId } = useParams() 
+  const { documentId } = useParams() 
 
   const [templateNumber, setTemplateNumber] = useState(null)
 
   const handleSelect = (num) => {
     setTemplateNumber(num) 
     localStorage.setItem("TemplateNumber", num)
-    navigate(`/dashboard/resume/${resumeId}/chooseResume`)
+    navigate(`/dashboard/resume/${documentId}/edit`)
   }
 
   useEffect(() => {

@@ -38,7 +38,7 @@ const FormSection = () => {
               <Button><FcPrevious /></Button>
             </span>
             <span onClick={Handler}>
-              <Button color={true}>
+              <Button color={true}> 
                 {State === 6 ? "Finish" : "Next"}
               </Button>
             </span>
