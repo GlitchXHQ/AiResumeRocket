@@ -5,21 +5,37 @@ import { ResumeInfoContext } from '@/context/ResumeInfoContext'
 import React, { useState, useEffect } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import Footer from '@/components/home/FourthSection/Footer'
-
+import GlobalApi from '@/services/GlobalApi.js'
+import { Loader } from 'lucide-react'
 const ResumePage = () => {
   const { documentId } = useParams()
   const location = useLocation()
 
-  const [resumeInfo, setResumeInfo] = useState(Dummy)
+  const [resumeInfo, setResumeInfo] = useState(null)
   const [templateNumber, setTemplateNumber] = useState(null)
 
   useEffect(() => {
     // Read template number from localStorage
     const storedTemplate = localStorage.getItem("TemplateNumber")
     if (storedTemplate) {
-      setTemplateNumber(parseInt(storedTemplate))
+      setTemplateNumber(parseInt(storedTemplate)) 
     }
   }, [])
+
+  useEffect(() => {
+  const GetResumeInfo = () => {
+    GlobalApi.getResumeById(documentId).then((res) => {
+      console.log("Resume Content Stored: ", res.data.data)  
+      setResumeInfo(res.data.data)
+    })
+  }
+  GetResumeInfo()
+}, [])
+
+  if(!resumeInfo)
+  {
+      return <Loader className='animate-spin flex justify-center items-center mx-auto mt-10 text-7xl'>Loading</Loader>
+  }
 
   return (
     <ResumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>

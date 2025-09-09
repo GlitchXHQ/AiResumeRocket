@@ -97,6 +97,7 @@ const Education = () => {
                 type="text"
                 name="universityName"
                 placeholder="Cambridge University"
+                defaultValue={val.universityName}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-400 focus:outline-none"
                 onChange={(e) => ChangeHandler(e, idx)}
               />
@@ -111,6 +112,7 @@ const Education = () => {
                   type="text"
                   name="degree"
                   placeholder="Bachelors"
+                  defaultValue={val.degree}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-400 focus:outline-none"
                   onChange={(e) => ChangeHandler(e, idx)}
                 />
@@ -123,6 +125,7 @@ const Education = () => {
                   type="text"
                   name="major"
                   placeholder="Physics"
+                  defaultValue={val.major}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-400 focus:outline-none"
                   onChange={(e) => ChangeHandler(e, idx)}
                 />

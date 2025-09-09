@@ -96,7 +96,7 @@ const Skills = () => {
               <input
                 type="text"
                 name="name"
-                value={val.name}
+                defaultValue={val.name}
                 onChange={(e) => changeHandler(e, idx)}
                 className="w-full px-3 py-2 text-sm border border-gray-400 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none"
               />
@@ -110,7 +110,7 @@ const Skills = () => {
               <input
                 type="text"
                 name="heading"
-                value={val.heading}
+                defaultValue={val.heading}
                 onChange={(e) => changeHandler(e, idx)}
                 className="w-full px-3 py-2 text-sm border border-gray-400 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none"
               />

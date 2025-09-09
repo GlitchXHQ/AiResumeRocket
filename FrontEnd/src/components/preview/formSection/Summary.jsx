@@ -76,7 +76,7 @@ const Summary = () => {
         </label>
         <textarea
           id="summary"
-          value={summary}
+          defaultValue={summary}
           placeholder={resumeInfo.summary || 'Write your professional summary here...'}
           className="border border-gray-300 rounded-lg h-[100px] p-2 focus:ring focus:ring-purple-200 focus:outline-none resize-none"
           onChange={(e) => setSummary(e.target.value)}

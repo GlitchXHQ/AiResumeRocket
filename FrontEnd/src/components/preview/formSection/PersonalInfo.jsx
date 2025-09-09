@@ -1,6 +1,6 @@
   import { ResumeInfoContext } from '@/context/ResumeInfoContext'
   import GlobalApi from '@/services/GlobalApi'
-  import { LoaderCircle } from 'lucide-react'
+  import { Loader, LoaderCircle } from 'lucide-react'
   import React, { useContext, useState } from 'react'
   import { useParams } from 'react-router-dom'
   import { toast } from 'sonner'
@@ -59,6 +59,11 @@
           setLoading(false)
           toast.error('Error updating resume, try again later')
         })
+    }
+
+    if(!resumeInfo)
+    {
+      return <Loader className='animate-spin'>Loading</Loader>
     }
 
     return (

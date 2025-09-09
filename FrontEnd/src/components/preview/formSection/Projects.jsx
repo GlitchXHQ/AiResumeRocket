@@ -115,7 +115,7 @@ const Projects = () => {
             <input
               onChange={(e) => changeHandler(e, idx)}
               name="name"
-              value={val.name}
+              defaultValue={val.name}
               type="text"
               placeholder="e.g., Employee Management System"
               className="border w-full border-gray-300 rounded-md p-2"
@@ -129,7 +129,6 @@ const Projects = () => {
               <input
                 onChange={(e) => changeHandler(e, idx)}
                 name="date"
-                value={val.date}
                 type="date"
                 className="border w-full border-gray-300 rounded-md p-2"
               />
@@ -139,7 +138,7 @@ const Projects = () => {
               <input
                 onChange={(e) => changeHandler(e, idx)}
                 name="link"
-                value={val.link}
+                defaultValue={val.link}
                 type="text"
                 placeholder="e.g., https://github.com/project"
                 className="border w-full border-gray-300 rounded-md p-2"
@@ -150,7 +149,7 @@ const Projects = () => {
           {/* Description */}
           <div className="mt-5">
             <RichTextEditor
-              value={val.about}
+              defaultValue={val.about}
               onRichTextEditorChange={(content) => {
                 const updatedList = [...projectList]
                 updatedList[idx].about = content
