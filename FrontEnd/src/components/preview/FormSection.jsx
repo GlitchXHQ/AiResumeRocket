@@ -7,11 +7,13 @@ import Projects from './formSection/Projects'
 import Temp from './formSection/Temp.jsx'
 import Button from '../common/Button'
 import { FcPrevious } from "react-icons/fc";
+import { useNavigate, useParams } from 'react-router-dom'
 
 const FormSection = () => {
   const [State, setState] = useState(1)
   const [showPopup, setShowPopup] = useState(false)
-
+  const navigate=useNavigate()
+  const {documentId}=useParams()
   const Handler = () => {
     if (State >= 6) {
       setShowPopup(true)
@@ -19,10 +21,15 @@ const FormSection = () => {
       setState(State + 1)
     }
   }
-
+  // console.log("DocumentID: ",documentId)
   const CancelHandler=()=>{
     setShowPopup(false)
     setState(6)
+  }
+
+  const HandleYes=()=>{
+    setShowPopup(false)
+    navigate(`/dashboard/resume/111/viewResume`)
   }
 
   return (
@@ -64,12 +71,10 @@ const FormSection = () => {
               <button onClick={CancelHandler}>
                 Cancel
               </button>
-              <Button color={true} onClick={() =>{
-                setShowPopup(false)
-                // Add Preview logic here
-              }}>
+              <div onClick={HandleYes}>
+                <Button color={true}>
                 Yes, Preview
-              </Button>
+              </Button></div>
             </div>
           </div>
         </div>

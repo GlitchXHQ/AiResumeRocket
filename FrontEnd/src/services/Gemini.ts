@@ -11,7 +11,7 @@ const ai = new GoogleGenAI({ apiKey: API_KEY });
 async function generateText(prompt: string): Promise<string> {
   try {
     const result: GenerateContentResponse = await ai.models.generateContent({
-      model: "gemini-1.5-flash", // ✅ use gemini-1.5-flash or gemini-1.5-pro
+      model: "gemini-1.5-flash",
       contents: [
         {
           role: "user",

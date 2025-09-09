@@ -37,7 +37,7 @@ const Summary = () => {
       },
       () => {
         setLoading(false)
-        toast.error('Failed to update summary')
+        toast.error('Response Overloaded, Try again after sometime')
       }
     )
   }

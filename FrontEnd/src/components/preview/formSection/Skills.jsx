@@ -34,6 +34,10 @@ const Skills = () => {
     setSkillList(updatedList)
   }
 
+  useEffect(()=>{
+    resumeInfo?.skills.length>0&&setSkillList(resumeInfo?.skills)
+  },[])
+
   useEffect(() => {
     setResumeInfo({
       ...resumeInfo,
@@ -50,7 +54,7 @@ const Skills = () => {
     setLoading(true)
     const data = {
       data: {
-        skills: skillList,
+        skills: skillList.map(({id,...rest})=>rest),
       },
     }
 

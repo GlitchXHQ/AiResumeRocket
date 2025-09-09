@@ -8,13 +8,14 @@ import { ClerkProvider } from '@clerk/clerk-react'
 import Dashboard from './components/dashboard/Dashboard'
 import AddResume from './components/addResume/AddResume'
 import EditResume from './components/dashboard/resume/[resumeId]/edit/page.jsx'
-
+import ViewResume from './components/resumeView/view/ViewResume.jsx'
 import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom'
 import ChooseResume from './components/dashboard/resume/[resumeId]/chooseResume/ChooseResume'
 import ResumePage from './components/dashboard/resume/[resumeId]/edit/ResumePage'
+import { View } from 'lucide-react'
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
         path:'/dashboard/resume/:documentId/chooseResume',
         element:<ChooseResume/>
       },
+      {
+        path:'/dashboard/resume/:documentId/viewResume',
+        element:<ViewResume/>
+      },      
     ],
   },
   {

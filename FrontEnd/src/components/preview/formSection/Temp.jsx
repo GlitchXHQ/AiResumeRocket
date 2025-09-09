@@ -71,7 +71,7 @@
         },
         (err) => {
           setLoading(false);
-          toast.error('Error, try again later');
+          toast.error('Field are Empty/ Try again later');
         }
       );
     };
@@ -116,10 +116,14 @@
       }
     };
 
+    useEffect(()=>{
+      resumeInfo?.experience.length>0&&setExperienceList(resumeInfo?.experience)
+    },[])
+
     useEffect(() => {
       setResumeInfo((prev) => ({
         ...prev,
-        experience: experience,
+        experience: experience.map(({id,...rest})=>rest),
       }));
     }, [experience, setResumeInfo]);
 
@@ -232,7 +236,7 @@
               <div className="flex flex-col w-full px-4 sm:px-6">
                 <h1 className="text-gray-500">Work Summary</h1>
                 <RichTextEditor
-                  defaultValue={val.workSummary}
+                  value={val.workSummary}
                   onRichTextEditorChange={(content) => {
                     const updatedList = [...experience];
                     updatedList[idx].workSummary = content;

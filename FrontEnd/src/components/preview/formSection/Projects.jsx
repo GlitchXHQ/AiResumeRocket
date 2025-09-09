@@ -13,7 +13,7 @@ const Projects = () => {
   ])
   const params = useParams()
   const [loading, setLoading] = useState(false)
-  const { setResumeInfo } = useContext(ResumeInfoContext)
+  const { resumeInfo,setResumeInfo } = useContext(ResumeInfoContext)
   const [loadingAI, setLoadingAI] = useState(null)
 
   const AddSection = () => {
@@ -69,7 +69,7 @@ const Projects = () => {
     e.preventDefault()
     setLoading(true)
 
-    const data = { data: { projects: projectList } }
+    const data = { data: { projects: projectList.map(({id,...rest})=>rest) } }
 
     GlobalApi.updateUserResume(params?.documentId, data).then(
       () => {
@@ -82,6 +82,10 @@ const Projects = () => {
       }
     )
   }
+
+  useEffect(()=>{
+    resumeInfo.projects?.length>0&&setProjectList(resumeInfo?.projects)
+  },[])
 
   useEffect(() => {
     setResumeInfo((prev) => ({
@@ -149,7 +153,7 @@ const Projects = () => {
           {/* Description */}
           <div className="mt-5">
             <RichTextEditor
-              defaultValue={val.about}
+              value={val.about}
               onRichTextEditorChange={(content) => {
                 const updatedList = [...projectList]
                 updatedList[idx].about = content

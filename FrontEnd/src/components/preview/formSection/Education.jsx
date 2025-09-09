@@ -42,7 +42,9 @@ const Education = () => {
     e.preventDefault();
     setLoading(true)
     const data = {
-      data: { education: educationList }
+      data: { 
+        education: educationList.map(({id,...rest})=>rest)
+       }
     }
     await GlobalApi.updateUserResume(param?.documentId, data).then(res => {
       setLoading(false)
@@ -52,6 +54,10 @@ const Education = () => {
       toast.error("Network Error, Try Again Later")
     })
   }
+
+  useEffect(()=>{
+      resumeInfo?.education.length>0&&setEducationList(resumeInfo?.education)
+    },[])
 
   useEffect(() => {
     setResumeInfo({
