@@ -22,6 +22,17 @@ const NavBar = () => {
     });
   }, { scope: nav });
 
+
+  const Handler=()=>{
+    setMenuOpen(false)
+    navigate("/dashboard/contact")
+  }
+
+  const Handler2=()=>{
+    setMenuOpen(false)
+    navigate("/dashboard/about")
+  }
+
   return (
     <div 
       ref={nav} 
@@ -39,8 +50,8 @@ const NavBar = () => {
 
       {/* Desktop Links */}
       <div className="hidden md:flex flex-row gap-10">
-        <h1 className="cursor-pointer text">Features</h1>
-        <h1 className="cursor-pointer text">About Us</h1>
+        <h1 className="cursor-pointer text" onClick={Handler}>Contact Us</h1>
+        <h1 className="cursor-pointer text" onClick={Handler2}>About Us</h1>
       </div>
 
       {/* Right Section */}
@@ -69,8 +80,8 @@ const NavBar = () => {
       {/* Mobile Dropdown */}
       {menuOpen && (
         <div className="absolute top-[70px] left-0 w-full bg-white border-t flex flex-col gap-4 py-4 px-6 md:hidden z-50">
-          <h1 className="cursor-pointer text" onClick={() => setMenuOpen(false)}>Features</h1>
-          <h1 className="cursor-pointer text" onClick={() => setMenuOpen(false)}>About Us</h1>
+          <h1 className="cursor-pointer text" onClick={Handler}>Contact Us</h1>
+          <h1 className="cursor-pointer text" onClick={Handler2}>About Us</h1>
           <div className="text">
             {isLoaded && (isSignedIn 
               ? <UserButton/>
