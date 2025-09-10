@@ -15,7 +15,9 @@ import {
 } from 'react-router-dom'
 import ChooseResume from './components/dashboard/resume/[resumeId]/chooseResume/ChooseResume'
 import ResumePage from './components/dashboard/resume/[resumeId]/edit/ResumePage'
-import { View } from 'lucide-react'
+import {View } from 'lucide-react'
+import About from './components/common/about.jsx'
+import Contact from './components/common/contact.jsx'
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -50,7 +52,15 @@ const router = createBrowserRouter([
       {
         path:'/dashboard/resume/:documentId/viewResume',
         element:<ViewResume/>
-      },      
+      },
+      {
+        path:'/dashboard/about',
+        element:<About/>
+      },
+      {
+        path:'/dashboard/contact',
+        element:<Contact/>
+      },           
     ],
   },
   {
